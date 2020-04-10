@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <item
+        android:id="@+id/app_bar_search"
+
+        android:title="Search"
+
+        app:actionViewClass="android.widget.SearchView" />
+    <item
+        android:id="@+id/profilePic"
+
+        android:title="Change your profile pic" />
+    <item
+        android:id="@+id/new_group"
+
+        android:title="New group" />
+    <item
+        android:id="@+id/settings"
+
+        android:title="Settings" />
+    <item
+        android:id="@+id/logout"
+
+        android:title="Logout" />
+</menu>
