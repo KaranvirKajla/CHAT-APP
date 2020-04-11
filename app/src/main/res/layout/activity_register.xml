@@ -46,6 +46,16 @@
         android:inputType="textPassword"
         android:background="@drawable/edit_text_background"/>
 
+    <EditText
+        android:id="@+id/confirmPassword"
+        android:layout_marginTop="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Confirm Password"
+        android:inputType="textPassword"
+        android:background="@drawable/edit_text_background"/>
+
     <Button
         android:id="@+id/register"
         android:layout_width="match_parent"
@@ -62,5 +72,7 @@
         android:textColor="@color/colorPrimary"
         android:text="Already a user? Login.."
         />
+
+
 
 </LinearLayout>

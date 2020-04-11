@@ -25,8 +25,9 @@ import java.util.HashMap;
 import java.util.List;
 
 public class RegisterActivity extends AppCompatActivity {
+
     private TextView mLogin;
-    private EditText mEmail,mName,mPassword;
+    private EditText mEmail,mName,mPassword,mConfirmPassword;
     private FirebaseAuth mAuth;
     private Button mRegister;
     private DatabaseReference mRef = FirebaseDatabase.getInstance().getReference();
@@ -40,6 +41,7 @@ public class RegisterActivity extends AppCompatActivity {
         mPassword  = findViewById(R.id.password);
         mRegister = findViewById(R.id.register);
         mLogin = findViewById(R.id.login);
+        mConfirmPassword = findViewById(R.id.confirmPassword);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -68,12 +70,15 @@ public class RegisterActivity extends AppCompatActivity {
                 String email = mEmail.getText().toString();
                 String name = mName.getText().toString();
                 String password = mPassword.getText().toString();
+                String confirmPassword = mConfirmPassword.getText().toString();
 
                 if(TextUtils.isEmpty(email) || TextUtils.isEmpty(name) || TextUtils.isEmpty(password)){
                     Toast.makeText(RegisterActivity.this,"Credentials missing",Toast.LENGTH_LONG).show();
 
                 }else if(password.length()<6){
                     Toast.makeText(RegisterActivity.this,"Password too Short",Toast.LENGTH_LONG).show();
+                }else if(!confirmPassword.equals(password)){
+                    Toast.makeText(RegisterActivity.this,"Password unmatched. Reenter password..",Toast.LENGTH_LONG).show();
                 }else{
                     registerUser(email,password,name);
                 }
