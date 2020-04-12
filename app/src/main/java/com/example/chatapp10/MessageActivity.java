@@ -3,6 +3,7 @@ package com.example.chatapp10;
 import Adapter.MessageAdapter;
 import Models.Message;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -37,6 +38,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -190,20 +192,53 @@ public class MessageActivity extends AppCompatActivity {
     }
 
     private void readMessages() {
-
         mMessages.clear();
         final FirebaseUser currentUser = mAuth.getCurrentUser();
         final String myEmail = currentUser.getEmail();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Messages");
         Query query = ref.orderByChild("seconds");
 
-        switchformessagereceivetone=0;
+        //switchformessagereceivetone=0;
+        query.limitToLast(1).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+               Log.d("onChildAdded","onChildAdded  "+dataSnapshot);
+                Log.d("onChildAdded","onChildAdded string  "+s);
+               Message message = dataSnapshot.getValue(Message.class);
+               if(switchformessagereceivetone==1 && currentUser.getEmail().equals(message.getTo())){
+                   MediaPlayer mediaPlayer = MediaPlayer.create(MessageActivity.this,R.raw.messagealert);
+                   mediaPlayer.start();
+               }
+               switchformessagereceivetone=1;
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
 
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mMessages.clear();
+
 
 
 
@@ -218,16 +253,17 @@ public class MessageActivity extends AppCompatActivity {
                 messageAdapter.notifyDataSetChanged();
                 mRecyclerView.scrollToPosition(mMessages.size()-1);
 
-
-               Message message = mMessages.get(mMessages.size()-1);
+               /* int messageSize = mMessages.size()-1;
+                if(messageSize>0){
+               Message message = mMessages.get(messageSize);
                if(switchformessagereceivetone==1 && message.getTo().equals(currentUser.getEmail())){
 
                    //Toast.makeText(MessageActivity.this,"Meessage received",Toast.LENGTH_LONG).show();
                    MediaPlayer mediaPlayer =MediaPlayer.create(MessageActivity.this,R.raw.messagealert);
                    mediaPlayer.start();
 
-               }
-                switchformessagereceivetone=1;
+               }}*/
+             //   switchformessagereceivetone=1;
             }
 
             @Override
