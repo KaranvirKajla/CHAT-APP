@@ -9,7 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.chatapp10.MessageActivity;
 import com.example.chatapp10.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -63,11 +65,13 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
             params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
             holder.cardView.setLayoutParams(params);
         }else{
+
             holder.cardView.setBackgroundColor(Color.WHITE);
 
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
             params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
             holder.cardView.setLayoutParams(params);
+
         }
 
     }
