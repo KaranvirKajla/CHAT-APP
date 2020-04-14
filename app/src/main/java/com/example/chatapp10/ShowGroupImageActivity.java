@@ -121,8 +121,12 @@ public class ShowGroupImageActivity extends AppCompatActivity {
 
                                 }
                             });
-                    pd.dismiss();
 
+                    pd.dismiss();
+                            Intent intent = new Intent(ShowGroupImageActivity.this,GroupMessageActivity.class);
+                            intent.putExtra("groupId",groupId);
+                            startActivity(intent);
+                            finish();
                         }
                     });
                 }else{
@@ -152,6 +156,7 @@ public class ShowGroupImageActivity extends AppCompatActivity {
             mImage.setImageURI(imageUri);
         }else{
             Intent intent = new Intent(ShowGroupImageActivity.this,GroupMessageActivity.class);
+            intent.putExtra("groupId",groupId);
             startActivity(intent);
             finish();
         }

@@ -45,6 +45,7 @@ public class CreateGroupActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
+        getSupportActionBar().setTitle("Create New Group");
         onCreateButtonClick();
     }
 

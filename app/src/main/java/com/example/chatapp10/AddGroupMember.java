@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -45,10 +47,12 @@ public class AddGroupMember extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(AddGroupMember.this));
 
+        getSupportActionBar().setTitle("Add Member");
 
 
         readUsers();
     }
+
 
     private void readUsers() {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users");

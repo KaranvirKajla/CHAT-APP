@@ -1,12 +1,17 @@
 package Adapter;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.example.chatapp10.MessageActivity;
@@ -19,6 +24,7 @@ import Models.User;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import de.hdodenhof.circleimageview.CircleImageView;
+
 
 public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder>{
     List<User> mFriends;
@@ -50,6 +56,31 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
                 Intent intent = new Intent(mContext, MessageActivity.class);
                 intent.putExtra("friendEmail", friend.getEmail());
                 mContext.startActivity(intent);
+            }
+        });
+
+
+        holder.imageView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                AlertDialog.Builder alertadd = new AlertDialog.Builder(mContext);
+                LayoutInflater factory = LayoutInflater.from(mContext);
+                final View view = factory.inflate(R.layout.profile_pic_dialog, null);
+
+// change the ImageView image source
+                final ImageView dialogImageView = (ImageView) view.findViewById(R.id.image);
+
+                Picasso.get().load(friend.getImageUrl()).placeholder(R.mipmap.ic_person).into(dialogImageView);
+                alertadd.setView(view);
+                alertadd.setTitle(friend.getName());
+                alertadd.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dlg, int sumthin) {
+                            dlg.dismiss();
+                    }
+                });
+
+                alertadd.show();
+                return true;
             }
         });
 

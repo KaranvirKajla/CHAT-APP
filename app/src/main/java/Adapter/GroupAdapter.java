@@ -1,12 +1,15 @@
 package Adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -60,7 +63,32 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder>{
             public void onClick(View v) {
                 Intent intent  = new Intent(mContext, GroupMessageActivity.class);
                 intent.putExtra("groupId",group.getId());
+                intent.putExtra("groupName",group.getName());
                 mContext.startActivity(intent);
+            }
+        });
+
+        holder.imageProfile.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                AlertDialog.Builder alertadd = new AlertDialog.Builder(mContext);
+                LayoutInflater factory = LayoutInflater.from(mContext);
+                final View view = factory.inflate(R.layout.profile_pic_dialog, null);
+
+// change the ImageView image source
+                final ImageView dialogImageView = (ImageView) view.findViewById(R.id.image);
+
+                Picasso.get().load(group.getImageUrl()).placeholder(R.mipmap.ic_group).into(dialogImageView);
+                alertadd.setView(view);
+                alertadd.setTitle(group.getName());
+                alertadd.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dlg, int sumthin) {
+                        dlg.dismiss();
+                    }
+                });
+
+                alertadd.show();
+                return true;
             }
         });
 

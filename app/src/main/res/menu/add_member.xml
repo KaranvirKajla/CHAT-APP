@@ -10,6 +10,13 @@
         app:actionViewClass="android.widget.SearchView"
         />
     <item
+        android:id="@+id/groupPic"
+
+        android:title="Change group Profile"
+
+        app:actionViewClass="android.widget.SearchView"
+        />
+    <item
         android:id="@+id/members"
 
         android:title="All members"

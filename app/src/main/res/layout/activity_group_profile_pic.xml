@@ -4,11 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CreateGroupActivity"
-    android:orientation="vertical"
+    tools:context=".GroupProfilePicActivity"
     android:gravity="center"
-    android:padding="15dp">
+    android:orientation="vertical"
+    android:padding="10dp">
 
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_group_foreground"
+        android:layout_weight="1"
+        />
 
     <EditText
         android:id="@+id/name"
@@ -17,25 +24,25 @@
         android:hint="Group Name"
         android:background="@drawable/edit_text_background"
         />
-    <EditText
-        android:id="@+id/description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Descripiton"
-        android:lines="5"
-        android:background="@drawable/edit_text_background"
-        android:layout_marginTop="15dp"
-        />
+
+<EditText
+    android:id="@+id/description"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="15dp"
+    android:lines="5"
+    android:hint="Description"
+    android:background="@drawable/edit_text_background"
+    />
+
     <Button
-        android:id="@+id/create_group"
+        android:id="@+id/save"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Create Group"
-        android:background="@drawable/button_background"
+        android:text="Save"
         android:textColor="@color/white"
         android:layout_marginTop="15dp"
+        android:background="@drawable/button_background"
         />
-
-
 
 </LinearLayout>

@@ -65,6 +65,8 @@ public class GroupMessageActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private ImageView mLocation;
     private String groupId;
+    private String groupName;
+
     private GroupMessageAdapter adapter;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private FirebaseAuth mAuth;
@@ -92,21 +94,14 @@ public class GroupMessageActivity extends AppCompatActivity {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(GroupMessageActivity.this);
         mAuth = FirebaseAuth.getInstance();
         groupId = getIntent().getStringExtra("groupId");
+        groupName = getIntent().getStringExtra("groupName");
         switchformessagereceivetone=0;
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Groups").child(groupId).child("name");
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                getSupportActionBar().setTitle(dataSnapshot.getValue(String.class));
 
-            }
+        getSupportActionBar().setTitle(groupName);
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         readMessages();
         onImageClick();
@@ -262,6 +257,7 @@ public class GroupMessageActivity extends AppCompatActivity {
                     }*/
                 }
                 adapter.notifyDataSetChanged();
+                mRecyclerView.scrollToPosition(mMessages.size()-1);
                 progress.setVisibility(View.GONE);
             }
 
@@ -287,15 +283,27 @@ public class GroupMessageActivity extends AppCompatActivity {
                 intent.putExtra("groupId",groupId);
                 startActivity(intent);
                 return true;
-            /*case R.id.members:
-                intent = new Intent(GroupMessageActivity.this,GroupMembersActivity.class);
+            case R.id.groupPic:
+                intent = new Intent(GroupMessageActivity.this,GroupProfilePicActivity.class);
                 intent.putExtra("groupId",groupId);
                 startActivity(intent);
-                return true;*/
+                return true;
+            case R.id.members:
+                intent = new Intent(GroupMessageActivity.this,GroupMembersActivity.class);
+                intent.putExtra("groupId",groupId);
+                intent.putExtra("groupName",groupName);
+                startActivity(intent);
+                return true;
+            case android.R.id.home:
+                intent = new Intent(GroupMessageActivity.this,GroupsActivity.class);
+                startActivity(intent);
+                finish();
+                return true;
             default:
                 Toast.makeText(GroupMessageActivity.this,"Under construction",Toast.LENGTH_SHORT).show();
                 return true;
         }
+        //return (super.onOptionsItemSelected(menuItem));
     }
 
     private void onSendButtonClick() {

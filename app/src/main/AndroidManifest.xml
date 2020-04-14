@@ -9,9 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".GroupMembersActivity"></activity>
+        <activity android:name=".GroupProfilePicActivity"></activity>
+        <activity android:name=".GroupMembersActivity" />
         <activity android:name=".ShowGroupImageActivity" />
-        <activity android:name=".GroupMessageActivity" />
+        <activity android:name=".GroupMessageActivity"
+            android:parentActivityName=".GroupsActivity"/>
+
         <activity android:name=".CreateGroupActivity" />
         <activity android:name=".AddGroupMember" />
         <activity android:name=".GroupsActivity" /> <!-- <service android:name=".java.MyFirebaseMessagingService" -->
@@ -44,10 +47,10 @@
             </intent-filter>
         </activity>
     </application>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
 </manifest>

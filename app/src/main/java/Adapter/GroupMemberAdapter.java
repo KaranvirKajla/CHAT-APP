@@ -8,6 +8,12 @@ import android.widget.TextClock;
 import android.widget.TextView;
 
 import com.example.chatapp10.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -18,12 +24,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class GroupMemberAdapter extends RecyclerView.Adapter<GroupMemberAdapter.ViewHolder>{
     private Context mContext;
-    private List<User> mUsers;
+    private List<User> mMembers;
     private String groupId;
 
-    public GroupMemberAdapter(Context mContext, List<User> mUsers, String groupId) {
+    public GroupMemberAdapter(Context mContext, List<User> mMembers, String groupId) {
         this.mContext = mContext;
-        this.mUsers = mUsers;
+        this.mMembers = mMembers;
         this.groupId = groupId;
     }
 
@@ -35,9 +41,28 @@ public class GroupMemberAdapter extends RecyclerView.Adapter<GroupMemberAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        User user = mUsers.get(position);
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
+        final User user = mMembers.get(position);
 
+        Picasso.get().load(user.getImageUrl()).placeholder(R.mipmap.ic_group).into(holder.image);
+        holder.name.setText(user.getName());
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Groups").child(groupId).child("creator");
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String creatorId = dataSnapshot.getValue(String.class);
+                if(user.getId().equals(creatorId)){
+                    holder.creator.setText("Creator");
+                }else{
+                    holder.creator.setText("");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
 
 
@@ -45,7 +70,7 @@ public class GroupMemberAdapter extends RecyclerView.Adapter<GroupMemberAdapter.
 
     @Override
     public int getItemCount() {
-        return mUsers.size();
+        return mMembers.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{

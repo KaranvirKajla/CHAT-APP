@@ -3,10 +3,12 @@ package com.example.chatapp10;
 import Adapter.FriendAdapter;
 import Models.User;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -43,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
     ImageView add;
     RecyclerView recyclerView;
 
+    AlertDialog.Builder builder;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,10 +65,10 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
         recyclerView.setAdapter(friendAdapter);
 
+        builder = new AlertDialog.Builder(this);
 
-
-      /*  MediaPlayer mediaPlayer = MediaPlayer.create(MainActivity.this,R.raw.messagealert);
-        mediaPlayer.start();*/
+        MediaPlayer mediaPlayer = MediaPlayer.create(MainActivity.this,R.raw.messagealert);
+        mediaPlayer.start();
 
 
         getSupportActionBar().setTitle("Your Friends");
@@ -129,9 +133,25 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         switch (id){
             case R.id.logout:
-                mAuth.signOut();
-                startActivity(new Intent(MainActivity.this,LoginActivity.class));
-                finish();
+                builder.setMessage("Do you want to logout ?").setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                mAuth.signOut();
+                                startActivity(new Intent(MainActivity.this,LoginActivity.class));
+                                finish();
+                            }
+                        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                AlertDialog alert = builder.create();
+                //Setting the title manually
+                alert.setTitle("Logout");
+                alert.show();
+
                 return true;
             case R.id.profilePic:
                 startActivity(new Intent(MainActivity.this,ProfilePicActivity.class));
@@ -141,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, GroupsActivity.class));
                 return true;
             default:
-                Toast.makeText(MainActivity.this,"Defalu",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this,"Under construction",Toast.LENGTH_SHORT).show();
                 return true;
         }
     }
