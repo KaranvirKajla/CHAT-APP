@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,6 +30,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.nio.file.attribute.GroupPrincipal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,6 +60,12 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
         recyclerView.setAdapter(friendAdapter);
+
+
+
+      /*  MediaPlayer mediaPlayer = MediaPlayer.create(MainActivity.this,R.raw.messagealert);
+        mediaPlayer.start();*/
+
 
         getSupportActionBar().setTitle("Your Friends");
         onAddClick();
@@ -129,22 +137,16 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this,ProfilePicActivity.class));
                 // CropImage.activity().start(this);
                 return true;
+            case R.id.groups:
+                startActivity(new Intent(MainActivity.this, GroupsActivity.class));
+                return true;
             default:
                 Toast.makeText(MainActivity.this,"Defalu",Toast.LENGTH_SHORT).show();
                 return true;
         }
     }
 
-    /*@Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode==RESULT_OK){
-            CropImage.ActivityResult result = CropImage.getActivityResult((data));
-             imageUri = result.getUri();
-        }else{
-            Toast.makeText(MainActivity.this,"Try again",Toast.LENGTH_LONG).show();
-        }
-    }*/
+
 
     private void onAddClick() {
         add.setOnClickListener(new View.OnClickListener() {
